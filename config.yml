@@ -1,0 +1,45 @@
+# How the site is built. Every key is optional.
+#
+# What the collection *is* -- its label, summary, attribution and so on --
+# lives in collection.yml instead.
+
+# The absolute URL the site is published at. Leave it blank and the GitHub
+# Actions workflow fills it in from your Pages settings (which also handles
+# custom domains). Set it only if you publish somewhere else.
+# base_url: https://example.org/images
+
+# Language tag used for labels that are written as plain strings.
+language: en
+
+# Tile edge in pixels. 512 is the usual choice; 1024 makes fewer, larger files.
+tile_size: 512
+
+jpeg_quality: 85
+
+# Preferred width for thumbnails. The closest size the pyramid already
+# contains is used, so no extra derivatives are generated.
+thumbnail_width: 400
+
+# Defaults applied to every object and to the collection, unless a sidecar
+# of its own overrides them.
+
+# Optional rights statement URL (http://rightsstatements.org/ or
+# https://creativecommons.org/licenses/...).
+# rights: https://creativecommons.org/publicdomain/zero/1.0/
+
+# Optional attribution shown by viewers.
+# required_statement:
+#   label: Attribution
+#   value: Provided by Your Organisation
+
+# Optional provider block, shown in viewer information panels.
+# provider:
+#   - id: https://example.org
+#     label: Your Organisation
+#     homepage:
+#       - id: https://example.org
+#         type: Text
+#         label:
+#           en:
+#             - Your Organisation
+#         format: text/html

@@ -1,0 +1,9 @@
+# Sidecar metadata for the single image gradient-study.jpg.
+# Delete this file (and the image) when you add your own material.
+label: Gradient Study
+summary: A generated placeholder image, here to demonstrate a single-image object.
+metadata:
+  - label: Type
+    value: Placeholder
+  - label: Created
+    value: Generated at template build time

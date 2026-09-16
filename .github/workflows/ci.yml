@@ -1,0 +1,32 @@
+name: Tests
+
+# Runs on branches and pull requests: checks the builder's own tests and proves
+# the current originals/ still produce a valid service, without publishing.
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: true
+
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+
+      - name: Run tests
+        run: uv run pytest -q
+
+      - name: Build and validate the site
+        run: uv run iiif-build --base-url https://example.invalid/preview --out _preview --cache-dir .preview-cache

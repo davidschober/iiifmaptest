@@ -1,0 +1,26 @@
+[project]
+name = "iiif-pages"
+version = "0.1.0"
+description = "Turn a folder of images into a static IIIF Image API 3.0 level 0 service and Presentation 3.0 manifests, published with GitHub Pages."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pillow>=10.0",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+iiif-build = "iiif_pages.cli:main"
+
+[dependency-groups]
+dev = [
+    "iiif-prezi3>=3.1.1",
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.13,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

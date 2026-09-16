@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE_HTML}}</title>
+<meta name="description" content="{{SUMMARY_HTML}}">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <p class="eyebrow">IIIF collection</p>
+  <h1>{{TITLE_HTML}}</h1>
+  <p class="summary">{{SUMMARY_HTML}}</p>
+  <ul class="endpoints">
+    <li><span>Collection</span> <a href="iiif/collection.json"><code>/iiif/collection.json</code></a></li>
+    <li><span>Manifests</span> <a href="iiif/manifests/"><code>/iiif/manifests</code></a></li>
+    <li><span>Images</span> <a href="iiif/images/"><code>/iiif/images</code></a></li>
+  </ul>
+</header>
+
+<main>
+  <div id="status" class="status">Loading collection&hellip;</div>
+  <ul id="objects" class="grid"></ul>
+</main>
+
+<footer class="site-footer">
+  <p>
+    IIIF Image API 3.0 (level 0) &middot; IIIF Presentation API 3.0.
+    Manifests can be dragged into any IIIF viewer.
+  </p>
+</footer>
+
+<script>
+  const status = document.getElementById('status');
+  const list = document.getElementById('objects');
+
+  const firstValue = (languageMap) => {
+    if (!languageMap) return '';
+    const values = Object.values(languageMap)[0] || [];
+    return values[0] || '';
+  };
+
+  const viewerLink = (manifestId) => 'view.html?manifest=' + encodeURIComponent(manifestId);
+
+  fetch('iiif/collection.json')
+    .then((response) => {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    })
+    .then((collection) => {
+      const items = collection.items || [];
+      if (!items.length) {
+        status.textContent = 'No objects yet. Add images to the originals/ folder and push.';
+        return;
+      }
+      status.hidden = true;
+      for (const item of items) {
+        const label = firstValue(item.label) || item.id;
+        const summary = firstValue(item.summary);
+        const thumb = (item.thumbnail || [])[0];
+
+        const card = document.createElement('li');
+        card.className = 'card';
+        const link = document.createElement('a');
+        link.className = 'card-image';
+        link.href = viewerLink(item.id);
+        if (thumb) {
+          const img = document.createElement('img');
+          img.src = thumb.id;
+          img.alt = label;
+          img.loading = 'lazy';
+          if (thumb.width) img.width = thumb.width;
+          if (thumb.height) img.height = thumb.height;
+          link.appendChild(img);
+        } else {
+          link.textContent = label;
+        }
+        card.appendChild(link);
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+        const heading = document.createElement('h2');
+        const headingLink = document.createElement('a');
+        headingLink.href = viewerLink(item.id);
+        headingLink.textContent = label;
+        heading.appendChild(headingLink);
+        body.appendChild(heading);
+        if (summary) {
+          const p = document.createElement('p');
+          p.textContent = summary;
+          body.appendChild(p);
+        }
+        const actions = document.createElement('p');
+        actions.className = 'actions';
+        const manifestLink = document.createElement('a');
+        manifestLink.href = item.id;
+        manifestLink.textContent = 'Manifest';
+        actions.appendChild(manifestLink);
+        body.appendChild(actions);
+        card.appendChild(body);
+        list.appendChild(card);
+      }
+    })
+    .catch((error) => {
+      status.textContent = 'Could not load iiif/collection.json (' + error.message + ').';
+    });
+</script>
+</body>
+</html>

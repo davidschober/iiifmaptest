@@ -1,0 +1,17 @@
+# Sidecar metadata for the folder object three-page-notebook/.
+# Every image in the folder becomes one canvas in this manifest.
+label: Three Page Notebook
+summary: A generated placeholder object, here to demonstrate a compound object.
+behavior:
+  - paged
+metadata:
+  - label: Type
+    value: Placeholder
+# 'images' is optional: it sets the page order and per-canvas labels.
+images:
+  - file: 01-cover.jpg
+    label: Cover
+  - file: 02-notes.jpg
+    label: Notes
+  - file: 03-back-cover.jpg
+    label: Back cover

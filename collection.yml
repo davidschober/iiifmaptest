@@ -1,0 +1,39 @@
+# Metadata for this repository's IIIF collection, published at
+# /iiif/collection.json. It uses exactly the same keys as an object sidecar
+# (see originals/gradient-study.yml), and every key is optional.
+
+label: My IIIF Collection
+summary: Images published as a static IIIF level 0 service on GitHub Pages.
+
+# The label and summary above also title the browse page and the viewer.
+
+# metadata:
+#   - label: Repository
+#     value: Your Organisation
+#   - label: Subject
+#     value: Photographs
+
+# required_statement:
+#   label: Attribution
+#   value: Provided by Your Organisation
+
+# rights: https://creativecommons.org/publicdomain/zero/1.0/
+
+# provider:
+#   - id: https://example.org
+#     label: Your Organisation
+
+# Cover image for the collection: name any object in originals/.
+# thumbnail: gradient-study
+
+# behavior: [unordered]
+# nav_date: "1846-06-01T00:00:00Z"
+
+# see_also:
+#   - id: https://example.org/collection.xml
+#     type: Dataset
+#     format: text/xml
+
+# homepage:
+#   - id: https://example.org/collections/mine
+#     label: About this collection

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viewer &middot; {{TITLE_HTML}}</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  body { margin: 0; height: 100vh; display: flex; flex-direction: column; }
+  .viewer-bar { display: flex; gap: 1rem; align-items: baseline; padding: 0.6rem 1rem; border-bottom: 1px solid var(--rule); }
+  .viewer-bar a { font-size: 0.9rem; }
+  #mirador { position: relative; flex: 1 1 auto; }
+  .viewer-error { padding: 2rem; }
+</style>
+</head>
+<body>
+<div class="viewer-bar">
+  <a href="./">&larr; {{TITLE_HTML}}</a>
+  <a id="manifest-link" href="#">Manifest JSON</a>
+</div>
+<div id="mirador"></div>
+<script src="https://cdn.jsdelivr.net/npm/mirador@3.3.0/dist/mirador.min.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const manifest = params.get('manifest');
+
+  const start = (manifestId) => {
+    document.getElementById('manifest-link').href = manifestId;
+    Mirador.viewer({
+      id: 'mirador',
+      windows: [{ manifestId: manifestId }],
+      window: { allowClose: false, allowMaximize: false, sideBarOpenByDefault: false },
+      workspace: { showZoomControls: true },
+      workspaceControlPanel: { enabled: false },
+    });
+  };
+
+  if (manifest) {
+    start(manifest);
+  } else {
+    // No manifest requested: open the first one in the collection.
+    fetch('iiif/collection.json')
+      .then((response) => response.json())
+      .then((collection) => {
+        const first = (collection.items || [])[0];
+        if (!first) throw new Error('the collection is empty');
+        start(first.id);
+      })
+      .catch((error) => {
+        document.getElementById('mirador').innerHTML =
+          '<p class="viewer-error">Nothing to show: ' + error.message + '.</p>';
+      });
+  }
+</script>
+</body>
+</html>
